@@ -2,11 +2,6 @@
 #include <lauxlib.h>
 #include <stdio.h>
 
-typedef struct NumArray {
-    int size;
-    double values[1];  /* variable part */
-} NumArray;
-
 static int ltest1(lua_State *L) {
     int num = luaL_checkinteger(L, 1);
     printf("--- ltest1, num:%d\n", num);
