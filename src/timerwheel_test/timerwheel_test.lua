@@ -17,10 +17,6 @@ local cb = function(arg)
     print("timer executed with: ", arg)
 end
 
-
-
-
-
 local id = wheel:set(0.1, cb, "hello world")
 --local t = wheel:peek(10)
 --if t then
