@@ -26,11 +26,17 @@ local function bean()
 end
 
 local function test()
-    cjson.encode_sparse_array(true, 2, 3)
+    print("cjson name ", cjson._NAME)
+    print("cjson version ", cjson._VERSION)
+
+    print("{null} ", cjson.encode({ 'null' }))
+
+    cjson.encode_sparse_array(false, 0)
+    print(cjson.encode({[3]="data"}))
+    print("encode_sparse_array ", cjson.encode_sparse_array(true, 2, 3))
+
     local content = cjson.encode(bean())
     print(content)
-
-
 end
 
 test()
