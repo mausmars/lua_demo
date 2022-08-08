@@ -32,11 +32,17 @@ local function test()
     print("{null} ", cjson.encode({ 'null' }))
 
     cjson.encode_sparse_array(false, 0)
-    print(cjson.encode({[3]="data"}))
+    print(cjson.encode({ [3] = "data" }))
     print("encode_sparse_array ", cjson.encode_sparse_array(true, 2, 3))
 
     local content = cjson.encode(bean())
     print(content)
 end
 
+local function test2()
+    local t = cjson.decode("{\"code\":\"2\",\"msg\":\"batch data into json array error\"}")
+    print(t.code)
+end
+
 test()
+test2()
