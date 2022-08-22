@@ -9,8 +9,9 @@ function defcallback(a, b, c)
     print("defcallback a=" .. a .. " b=" .. b .. " c=" .. c)
 end
 
-local function watch(a, b, c,d)
+local function watch(a, b, c)
     print("### lua watch a=" .. a .. " b=" .. b .. " c=" .. c)
+    return a + b + c
 end
 
 local function task()
@@ -24,12 +25,12 @@ coroutine.resume(co)
 co = nil
 print "---------------------------"
 --cb.setwatch(watch)
-print "---------------------------"
+--print "---------------------------"
 --cb.setnotify(callback)
 --cb.testnotify()
-print "---------------------------"
+--print "---------------------------"
 --cb.testenv()
-print "---------------------------"
+--print "---------------------------"
 
-os.execute("sleep " .. 10)
+os.execute("sleep " .. 6)
 print "test over!"

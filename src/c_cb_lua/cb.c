@@ -41,7 +41,7 @@ void doit() {
         lua_pushinteger(L, a);
         lua_pushinteger(L, b);
         lua_pushinteger(L, c);
-        lua_call(L, 3, 0);  //调用函数
+        lua_call(L, 3, 1);  //调用函数
     }
 }
 
@@ -75,6 +75,7 @@ void doit2() {
 
         //回调
         lua_State *L = ud;
+        lua_settop(L,0);            //清空栈
         lua_rawgeti(L, LUA_REGISTRYINDEX, lua_watch);
         int a=1;
         int b=2;
@@ -82,7 +83,12 @@ void doit2() {
         lua_pushinteger(L, a);
         lua_pushinteger(L, b);
         lua_pushinteger(L, c);
-        lua_call(L, 3, 0);  //调用函数
+        printf("top1 %d \n",lua_gettop(L));      //栈值个数
+        lua_call(L, 3, 1);  //调用函数
+
+        printf("top2 %d \n",lua_gettop(L));      //栈值个数
+        printf("栈底 result v=%d \n",lua_tointeger(L, -1));
+//        printf("栈顶 result v=%d \n",lua_tointeger(L, 1));
     }
 }
 //------------------------------------------------

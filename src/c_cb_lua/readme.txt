@@ -1,5 +1,10 @@
 测试lua调用c，传递回调函数，并由c回调lua
 
+https://blog.csdn.net/yhhwatl/article/details/9303675
+栈顶 -1   n
+    -2   3
+    -3   2
+栈底 -n   1
 ---------------------------------------------------------------------------------
 https://www.bookstack.cn/read/lua-5.3/spilt.50.spilt.1.5.md
 
@@ -65,6 +70,25 @@ lua_pushvalue(L, 2) 并不是往栈顶插入元素2， 而是把在栈中位置�
 void lua_pop (lua_State *L, int n);
 n从堆栈中弹出元素 。
 ---------------------------------------------------------------------------------
+https://simion.com/info/lua_capi.html
+https://blog.csdn.net/fengbangyue/article/details/7342274
+下面是一个在文档中列举的一个例子：
+The following example shows how the host program can do the equivalent to this Lua code:
+     a = f("how", t.x, 14)
+Here it is in C:
+     lua_getfield(L, LUA_GLOBALSINDEX, "f"); /* function to be called */
+     lua_pushstring(L, "how");                        /* 1st argument */
+     lua_getfield(L, LUA_GLOBALSINDEX, "t");   /* table to be indexed */
+     lua_getfield(L, -1, "x");        /* push result of t.x (2nd arg) */
+     lua_remove(L, -2);                  /* remove 't' from the stack */
+     lua_pushinteger(L, 14);                          /* 3rd argument */
+     lua_call(L, 3, 1);     /* call 'f' with 3 arguments and 1 result */
+     lua_setfield(L, LUA_GLOBALSINDEX, "a");        /* set global 'a' */
 
+在上面的例子中，可能再调用lua_getfield时就会忘记调用lua_remove,当然这是我想象自己使用时会犯下的错。lua_getfield函数功能是从指定表中取出指定元素的值并压栈。上面获取t.x的值的过程就是先调用
+lua_getfield(L, LUA_GLOBALSINDEX, "t"); 从全局表中获取t的值，然而t本身是一个表，现在栈顶的值是t表。于是再一次
+lua_getfield(L, -1, "x"); 从t中取出x的值放到栈上，-1表示栈顶。那该函数执行完成后t的位置由-1就变成-2了，所以下面一句
+lua_remove索引的是-2，必须把t给remove掉，否则栈中就是4个参数了。上面的最后一句lua_setfield的目的是把返回值取回赋给全局变量a,因为在lua_call执行完成后，栈顶的就是返回值了。
+---------------------------------------------------------------------------------
 可以参考 lua-skynet.c 的 lcallback函数和_cb函数，还是有理解的地方。。。
 
