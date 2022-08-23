@@ -30,12 +30,14 @@ local function handle_io()
         coroutine.resume(token)    --唤醒
         print("### callback 2")
     end
+    -- 模拟io操作
     cb.io(callback)
     print("挂起协程! start")
     coroutine.yield()
     print("挂起协程! over")
 end
 
+-- 启动协程
 local co = coroutine.create(handle_io)
 coroutine.resume(co)
 co = nil
