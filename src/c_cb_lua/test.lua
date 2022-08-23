@@ -19,18 +19,38 @@ local function task()
     print("task over")
 end
 
-print "---------------------------"
-local co = coroutine.create(task)
+--===================================
+local function handle_io()
+    local token = coroutine.running()
+    print("handle_io token= ", token)
+    local function callback()
+        print("### callback1")
+        print("coroutine.status ", coroutine.status(token))
+        print("唤醒协程 ", token)
+        coroutine.resume(token)    --唤醒
+        print("### callback2")
+    end
+    cb.io(callback)
+    print("挂起协程! start")
+    coroutine.yield()
+    print("挂起协程! over")
+end
+
+local co = coroutine.create(handle_io)
 coroutine.resume(co)
 co = nil
-print "---------------------------"
+--======================================
+--local co = coroutine.create(task)
+--coroutine.resume(co)
+--co = nil
+--======================================
 --cb.setwatch(watch)
---print "---------------------------"
+--======================================
 --cb.setnotify(callback)
 --cb.testnotify()
---print "---------------------------"
+--======================================
 --cb.testenv()
---print "---------------------------"
+--======================================
 
 os.execute("sleep " .. 6)
 print "test over!"
