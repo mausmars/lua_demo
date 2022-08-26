@@ -33,11 +33,11 @@ local function match3()
 end
 
 local function match4()
-    --local str = "channelOrderId=2000000029412173&paymentExtend&paymentExtend2&orderId=2011378700&goodsId=Combo_XS_12&sign=49e804c1c9495e59bcc57b3bebb19ec7&startTs=1649494776000&language=zh-Hans-CN&userId=2332296&serverId&platform=apple_cn&gameExtend=2&isTest=1&price=12.00&appId=combo&endTs=1649494784000&zoneId=1&action=coin&dcAppId=combo_ioscn_prod&channelName=apple&currency=CNY&location=CN&sku=com.happyelements.combo.cn.ios2"
+    local str = "channelOrderId=2000000029412173&paymentExtend&paymentExtend2&orderId=2011378700&goodsId=Combo_XS_12&sign=49e804c1c9495e59bcc57b3bebb19ec7&startTs=1649494776000&language=zh-Hans-CN&userId=2332296&serverId&platform=apple_cn&gameExtend=2&isTest=1&price=12.00&appId=combo&endTs=1649494784000&zoneId=1&action=coin&dcAppId=combo_ioscn_prod&channelName=apple&currency=CNY&location=CN&sku=com.happyelements.combo.cn.ios2"
     local date = "([^=&]+)(=?([^&]*))"
 
     --print(string.match(str, date))
-    local str = "&a=&b&"
+    --local str = "&a=&b&"
     for k, v, x in string.gmatch(str, date) do
         if x == "" then
             print("@@@ ", k)
@@ -129,6 +129,38 @@ local function match10()
     in_put:close()
 end
 
+local function match11()
+    --local url = "/survey?pid=11111&surveyid=1"
+    local url = "/api/webhooks/ip"
+    local Url_Template = "(/.-)[?](.*)"
+
+    local path, param = string.match(url, Url_Template)
+    print("path=", path)
+    print("param=", param)
+end
+
+local function match12()
+    local Time_Template = "(%d%d%d%d)-(%d%d)-(%d%d) (%d%d):(%d%d):(%d%d)"
+    local date = "2021-01-26 14:00:00"
+
+    local y, m, d, h, min, s = string.match(date, Time_Template)
+    print(y, m, d, h, min, s)
+
+    local t = { string.match(date, Time_Template) }
+    local time = os.time { year = t[1], month = t[2], day = t[3], hour = t[4], minute = t[5], second = t[6] }
+    print("time ", time)
+
+    print("os.time", os.time())
+end
+
+local function match13()
+    local Url_Template = "https://.-/.-/(%d-)/.-/-"
+    local data = "https://wj.qq.com/s2/10315407/e7db/"
+
+    local num = string.match(data, Url_Template)
+    print("num ", num)
+end
+
 --match1()
 --match2()
 --match3()
@@ -138,4 +170,7 @@ end
 --match7()
 --match8()
 --match9()
-match10()
+--match10()
+--match11()
+--match12()
+match13()
