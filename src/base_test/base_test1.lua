@@ -6,4 +6,20 @@ local function test()
     print(send_mail)
 end
 
-test()
+local function test2()
+    local a = 0.7
+    print(a == 0)
+    print(a)
+    print(math.floor(a))
+    print(math.ceil(a))
+end
+
+local function test3()
+    local list = {}
+    print(#list)
+end
+
+--test()
+--test2()
+test3()
+
